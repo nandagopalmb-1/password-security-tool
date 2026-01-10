@@ -1,40 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Password Security Analyzer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1>Password Strength Analyzer</h1>
+
+<div class="container">
+    <h1>🔐 Password Security Analyzer</h1>
+    <p class="subtitle">
+        Analyze password strength, entropy, and resistance to common attacks
+    </p>
 
     <form method="POST">
-        <input type="password" name="password" placeholder="Enter password" required>
-        <button type="submit">Analyze</button>
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+        >
+        <button type="submit">Analyze Password</button>
     </form>
 
     {% if result %}
-    <div class="result">
+    <div class="card">
         <h2>Analysis Result</h2>
-        <p><b>Strength:</b> {{ result.strength }}</p>
-        <p><b>Entropy:</b> {{ result.entropy }} bits</p>
-        <p><b>Score:</b> {{ result.score }}</p>
+
+        <div class="strength {{ result.strength | lower }}">
+            Strength: {{ result.strength }}
+        </div>
+
+        <div class="metrics">
+            <div><b>Length:</b> {{ result.length }}</div>
+            <div><b>Score:</b> {{ result.score }}</div>
+            <div><b>Entropy:</b> {{ result.entropy }} bits</div>
+        </div>
 
         {% if result.feedback %}
-        <h3>Suggestions</h3>
-        <ul>
-            {% for f in result.feedback %}
-            <li>{{ f }}</li>
-            {% endfor %}
-        </ul>
+        <div class="feedback">
+            <h3>Suggestions</h3>
+            <ul>
+                {% for f in result.feedback %}
+                <li>{{ f }}</li>
+                {% endfor %}
+            </ul>
+        </div>
         {% endif %}
 
-        <h3>Dictionary Attack</h3>
-        {% if cracked %}
-            <p class="danger">Password cracked: {{ cracked }}</p>
-        {% else %}
-            <p class="safe">Password not found in dictionary</p>
-        {% endif %}
+        <div class="attack">
+            <h3>Dictionary Attack Simulation</h3>
+            {% if cracked %}
+                <p class="danger">❌ Password cracked: <b>{{ cracked }}</b></p>
+            {% else %}
+                <p class="safe">✅ Password not found in dictionary</p>
+            {% endif %}
+        </div>
     </div>
     {% endif %}
+
+    <footer>
+        <p>
+            Educational tool • Passwords are never stored • SHA-256 hashing used
+        </p>
+        <p class="version">v1.0 • Deployed on Render</p>
+    </footer>
+</div>
+
 </body>
 </html>
