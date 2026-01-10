@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Security Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Password Strength Analyzer</h1>
+
+    <form method="POST">
+        <input type="password" name="password" placeholder="Enter password" required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>Analysis Result</h2>
+        <p><b>Strength:</b> {{ result.strength }}</p>
+        <p><b>Entropy:</b> {{ result.entropy }} bits</p>
+        <p><b>Score:</b> {{ result.score }}</p>
+
+        {% if result.feedback %}
+        <h3>Suggestions</h3>
+        <ul>
+            {% for f in result.feedback %}
+            <li>{{ f }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h3>Dictionary Attack</h3>
+        {% if cracked %}
+            <p class="danger">Password cracked: {{ cracked }}</p>
+        {% else %}
+            <p class="safe">Password not found in dictionary</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
