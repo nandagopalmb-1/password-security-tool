@@ -85,7 +85,7 @@ http://127.0.0.1:5000
 🌐 Live Demo
 
 👉 Deployed Application:
-https://password-security-tool-q3mi.onrender.com
+(Add your Render URL here)
 
 🔐 Security & Ethics
 
